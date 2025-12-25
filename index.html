@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+  <meta name="viewport"
+content="width=device-width, height=device-height,
+initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+
 <meta charset="UTF-8">
 <title>Galaxia Rosa – Novafer</title>
 <style>
@@ -14,6 +19,8 @@ html, body {
     user-select:none;
     font-family: Arial, sans-serif;
     color:white;
+    touch-action: none;
+
 }
 canvas { display:block; }
 
@@ -59,10 +66,28 @@ const ctx = canvas.getContext("2d");
 const tooltip = document.getElementById("tooltip");
 
 let w, h;
-function resize(){
-    w = canvas.width = window.innerWidth;
-    h = canvas.height = window.innerHeight;
+function resize() {
+  const dpr = window.devicePixelRatio || 1;
+
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+
+  canvas.style.width = width + "px";
+  canvas.style.height = height + "px";
+
+  canvas.width = Math.floor(width * dpr);
+  canvas.height = Math.floor(height * dpr);
+
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+  w = width;
+  h = height;
 }
+
+window.addEventListener("resize", resize);
+window.addEventListener("orientationchange", resize);
+resize();
+
 resize();
 window.addEventListener("resize", resize);
 
